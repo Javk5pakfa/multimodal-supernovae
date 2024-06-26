@@ -60,11 +60,12 @@ def train_sweep(config=None):
         #)
 
         dataset = SimulationDataset(
-            hdf5_path = 'sim_data/ZTF_Pretrain_5Class.hdf5',
+            hdf5_path = 'sim_data/ZTF_Pretrain_5Class_ZFLAT_PERFECT.hdf5',
             bands = bands,
             n_max_obs=n_max_obs,
             combinations=['lightcurve'],
             dataset_length =  cfg.dataset_length,
+            noise = cfg.noisy_masked_pretrain
         )
 
         number_of_samples = len(dataset)
@@ -175,10 +176,6 @@ def train_sweep(config=None):
             path_base=path_run,
         )
 
-        plot_masked_pretraining_model(
-            model, val_loader, path_run + "/masked_pretraining.png"
-        )
-
         wandb.finish()
 
 
@@ -200,6 +197,7 @@ if __name__ == "__main__":
 
     set_seed(0)
     # define constants
+
 
 
     pretrain_lc_path = cfg["extra_args"].get("pretrain_lc_path")
